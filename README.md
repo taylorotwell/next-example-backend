@@ -1,5 +1,7 @@
 # Laravel Breeze Next.js Starter (Backend)
 
+Corresponding frontend: https://github.com/taylorotwell/next-example-frontend
+
 ## Introduction
 
 To get started, clone this repository and install its dependencies with `composer install`. Then, copy the `.env.example` file to `.env` and supply the URL of your frontend like so:
