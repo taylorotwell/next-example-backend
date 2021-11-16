@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class NewPasswordController extends Controller
 {
@@ -43,7 +44,11 @@ class NewPasswordController extends Controller
         );
 
         if ($request->wantsJson()) {
-            return response()->json(['status' => __($status)]);
+            return $status == Password::PASSWORD_RESET
+                ? response()->json(['status' => __($status)])
+                : throw ValidationException::withMessages([
+                    'email' => [__($status)],
+                ]);
         }
 
         // If the password was successfully reset, we will redirect the user back to
