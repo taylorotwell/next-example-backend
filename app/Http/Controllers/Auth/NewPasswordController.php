@@ -44,11 +44,13 @@ class NewPasswordController extends Controller
         );
 
         if ($request->wantsJson()) {
-            return $status == Password::PASSWORD_RESET
-                ? response()->json(['status' => __($status)])
-                : throw ValidationException::withMessages([
-                    'email' => [__($status)],
-                ]);
+            if ($status == Password::PASSWORD_RESET) {
+                return response()->json(['status' => __($status)]);
+            }
+
+            throw ValidationException::withMessages([
+                'email' => [__($status)],
+            ]);
         }
 
         // If the password was successfully reset, we will redirect the user back to

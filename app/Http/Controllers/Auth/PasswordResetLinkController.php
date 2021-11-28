@@ -31,11 +31,13 @@ class PasswordResetLinkController extends Controller
         );
 
         if ($request->wantsJson()) {
-            return $status == Password::RESET_LINK_SENT
-                ? response()->json(['status' => __($status)])
-                : throw ValidationException::withMessages([
-                    'email' => [__($status)],
-                ]);
+            if ($status == Password::RESET_LINK_SENT) {
+                return response()->json(['status' => __($status)]);
+            }
+
+            throw ValidationException::withMessages([
+                'email' => [__($status)],
+            ]);
         }
 
         return $status == Password::RESET_LINK_SENT
